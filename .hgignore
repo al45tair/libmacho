@@ -1,0 +1,7 @@
+syntax: glob
+samples/read-macho
+.sconsign.dblite
+*.o
+*.a
+*.dylib
+*~
