@@ -885,6 +885,15 @@ struct dylinker_command {
 
 }
 
+inline lowlevel::dylinker_command
+bswap(const lowlevel::dylinker_command &c)
+{
+  lowlevel::dylinker_command r = { bswap(c.cmd),
+				   bswap(c.cmdsize),
+				   bswap(c.name) };
+  return r;
+}
+
 // .. LC_(UNIX)THREAD ..........................................................
 
 namespace lowlevel {
@@ -1315,6 +1324,15 @@ struct source_version_command {
   uint64_t version; // A.B.C.D.E packed as a42.b10.c10.d10.e10
 };
 
+}
+
+inline lowlevel::source_version_command
+bswap(const lowlevel::source_version_command &c)
+{
+  lowlevel::source_version_command r = { bswap(c.cmd),
+					 bswap(c.cmdsize),
+					 bswap(c.version) };
+  return r;
 }
 
 #pragma pack(pop)

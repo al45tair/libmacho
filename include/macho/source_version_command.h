@@ -33,22 +33,22 @@ public:
             || (a == o.a &&
                 (b < o.b
                  || (b == o.b &&
-                     c < o.c
-                     || (c == o.c &&
-                         d < o.d
-                         || (d == o.d &&
-                             e < o.e))))));
+                     (c < o.c
+		      || (c == o.c &&
+			  (d < o.d
+			   || (d == o.d &&
+			       e < o.e))))))));
   }
   bool operator<=(const source_version &o) {
     return (a < o.a 
             || (a == o.a &&
                 (b < o.b
                  || (b == o.b &&
-                     c < o.c
-                     || (c == o.c &&
-                         d < o.d
-                         || (d == o.d &&
-                             e <= o.e))))));
+                     (c < o.c
+		      || (c == o.c &&
+			  (d < o.d
+			   || (d == o.d &&
+			       e <= o.e))))))));
   }
   bool operator==(const source_version &o) {
     return a == o.a && b == o.b && c == o.c && d == o.d && e == o.e;
@@ -61,22 +61,22 @@ public:
             || (a == o.a &&
                 (b > o.b
                  || (b == o.b &&
-                     c > o.c
-                     || (c == o.c &&
-                         d > o.d
-                         || (d == o.d &&
-                             e >= o.e))))));
+                     (c > o.c
+		      || (c == o.c &&
+			  (d > o.d
+			   || (d == o.d &&
+			       e >= o.e))))))));
   }
   bool operator>(const source_version &o) {
     return (a > o.a 
             || (a == o.a &&
                 (b > o.b
                  || (b == o.b &&
-                     c > o.c
-                     || (c == o.c &&
-                         d > o.d
-                         || (d == o.d &&
-                             e > o.e))))));
+                     (c > o.c
+		      || (c == o.c &&
+			  (d > o.d
+			   || (d == o.d &&
+			       e > o.e))))))));
   }
 };
 
@@ -88,7 +88,7 @@ inline std::ostream &operator<<(std::ostream &os, const source_version &v)
 class source_version_command : public load_command
 {
 private:
-  version _version;
+  source_version _version;
 
 public:
   static load_command *from_file(lowlevel::load_command *pcmd,
@@ -98,15 +98,15 @@ public:
 public:
   source_version_command() : load_command(LC_SOURCE_VERSION) {}
   source_version_command(const source_version_command &other)
-    : load_command(other.command()), _version(other._version), _sdk(other._sdk) {}
+    : load_command(other.command()), _version(other._version) {}
   ~source_version_command() {}
 
   load_command *copy() const {
     return new source_version_command(*this);
   }
 
-  class source_version version() const { return _version; }
-  void set_version(const class source_version &v) { _version = v; }
+  source_version version() const { return _version; }
+  void set_version(const source_version &v) { _version = v; }
 };
 
 END_MACHO_NS
