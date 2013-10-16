@@ -5,8 +5,8 @@ using namespace macho;
 
 load_command *
 dylinker_command::from_file(lowlevel::load_command *pcmd,
-                         int fp, off_t base, off_t end,
-                         bool swap, bool &retain)
+			    int fp, off_t base, off_t end,
+			    bool swap, bool &retain)
 {
   (void)fp;
   (void)base;
@@ -21,12 +21,12 @@ dylinker_command::from_file(lowlevel::load_command *pcmd,
   lowlevel::dylinker_command *pdyl = (lowlevel::dylinker_command *)pcmd;
   lowlevel::dylinker_command rpc = swap ? bswap(*pdyl) : *pdyl;
 
-  if (rpc.path > rpc.cmdsize)
+  if (rpc.name > rpc.cmdsize)
     return NULL;
 
   dylinker_command *r = new dylinker_command(rpc.cmd);
   
-  const char *name = ((const char *)pdyl) + rpc.path;
+  const char *name = ((const char *)pdyl) + rpc.name;
   int len = ::strnlen (name, rpc.cmdsize - sizeof (rpc));
 
   r->_name = std::string(name, len);
